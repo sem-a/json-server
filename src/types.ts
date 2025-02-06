@@ -1,5 +1,5 @@
 export interface SeminarType {
-  id: string | number;
+  id: string;
   title: string;
   description: string;
   date: string;

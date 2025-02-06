@@ -1,0 +1,46 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  width: 321px;
+  text-align: center;
+}
+.modal p {
+  margin-bottom: 21px;
+}
+button {
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: none;
+  cursor:pointer;
+}
+button.delete {
+  background-color: #e40800;
+  color: white;
+  transition: all 0.5s ease 0s;
+}
+button.delete:hover {
+  background-color: red;
+}
+button.cancle {
+  background-color: #1E65B7;
+  color: white;
+  transition: all 0.5s ease 0s;
+}
+button.cancle:hover {
+  background-color: #1479eb;
+}

@@ -29,6 +29,13 @@ function App() {
     fetchData();
   }, []);
 
+  // Функция для обработки удаления семинара
+  const handleDelete = (id: string) => {
+    setSeminars((prevSeminars) =>
+      prevSeminars.filter((seminar) => seminar.id !== id)
+    );
+  };
+
   if (loading) {
     return <div>Загрузка...</div>;
   }
@@ -45,7 +52,11 @@ function App() {
             {seminars.length == 0
               ? "Нет доступных семинаров."
               : seminars.map((seminar) => (
-                  <Seminar key={seminar.id} {...seminar} />
+                  <Seminar
+                    key={seminar.id}
+                    {...seminar}
+                    onDelete={handleDelete}
+                  />
                 ))}
           </div>
         </Container>
