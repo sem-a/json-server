@@ -1,6 +1,14 @@
 .container {
-  padding: 0 105px;
+  width: 884px;
+  margin: 0 auto;
 }
 .cardContainer {
   padding: 14px;
+}
+
+@media screen and (max-width: 884px) {
+  .container {
+    width: auto;
+    padding: 0 21px;
+  }
 }

@@ -3,6 +3,7 @@ import { Container } from "./components/containers";
 import { SeminarType } from "./types";
 import axios from "axios";
 import { Seminar } from "./components/seminar";
+import { Header } from "./components/header";
 
 function App() {
   const [seminars, setSeminars] = useState<SeminarType[]>([]); // для хранения данных полученных от json-server
@@ -36,13 +37,20 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Container>
-        {seminars.length == 0
-          ? "Нет доступных семинаров."
-          : seminars.map(seminar => (<Seminar key={seminar.id} {...seminar} />))}
-      </Container>
-    </div>
+    <>
+      <Header />
+      <div className="App">
+        <Container>
+          <div className="seminars">
+            {seminars.length == 0
+              ? "Нет доступных семинаров."
+              : seminars.map((seminar) => (
+                  <Seminar key={seminar.id} {...seminar} />
+                ))}
+          </div>
+        </Container>
+      </div>
+    </>
   );
 }
 

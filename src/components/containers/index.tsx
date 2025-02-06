@@ -21,10 +21,6 @@ export const Container: React.FC<ContainerType> = ({ children }) => {
   return <div className={styles.container}>{children}</div>;
 };
 
-export const CardContainer: React.FC<ContainerType> = ({ children }) => {
-  return <div className={styles.cardContainer}>{children}</div>;
-};
-
 export const Flex: React.FC<FlexType> = ({
   children,
   alignItems = "stretch",

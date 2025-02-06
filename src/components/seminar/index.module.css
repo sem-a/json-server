@@ -1,0 +1,103 @@
+.seminar {
+  width: 421px;
+  height: 200px;
+  padding: 14px;
+  background-color: white;
+  border-radius: 21px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+.seminar img {
+  width: 164px;
+  height: 172px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+button.delete {
+  padding: 4.5px 8px;
+  border-radius: 7px;
+  background-color: #e40800;
+  border: none;
+  transition: all 0.5s ease 0s;
+  cursor: pointer;
+}
+button.delete:hover {
+  background-color: red;
+}
+button.edit {
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 600;
+  color: white;
+  background-color: #1E65B7;
+  border: none;
+  transition: all 0.5s ease 0s;
+  cursor: pointer;
+}
+button.edit:hover {
+  background-color: #1479eb;
+}
+.time {
+  margin-top: 14px;
+}
+.time p {
+  padding-top: 1px;
+  font-weight: 400;
+  color: black;
+  font-size: 12px;
+}
+.title {
+  margin-top: 7px;
+}
+.title h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: black;
+}
+.description {
+  margin-top: 14px;
+}
+.description p {
+  font-size: 12px;
+  font-weight: 400;
+  color: black;
+}
+
+@media screen and (max-width: 475px) {
+  .seminar {
+    width: 100%;
+    padding: 14px;
+  }
+  .seminar img {
+    width: 144px;
+    height: 172px;
+    border-radius: 7px;
+    object-fit: cover;
+  }
+  .time p:last-child {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 385px) {
+  .title h2 {
+    font-size: 12px;
+    font-weight: 700;
+    color: black;
+  }
+  .description {
+    margin-top: 7px;
+  }
+  button.edit {
+    padding: 6px 6px 8px 8px;
+  }
+  button.edit p{
+    display: none;
+  }
+}
+@media screen and (max-width: 355px) {
+  .seminar img {
+    width: 100px;
+    height: 172px;
+  }
+}
