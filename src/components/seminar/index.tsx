@@ -10,6 +10,7 @@ import styles from "./index.module.css";
 import { SeminarType } from "../../types";
 import { DeleteModal, EditModal } from "../modal";
 import axios from "axios";
+import ErrorMessage from "../error";
 
 export const Seminar: React.FC<
   SeminarType & { onDelete: (id: string) => void } & {
@@ -18,6 +19,7 @@ export const Seminar: React.FC<
 > = ({ id, title, description, date, time, photo, onDelete, onSave }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // cостояние для модального окна
   const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Состояние для модального окна редактирования
+  const [error, setError] = useState<string | null>(null);
 
   const handleDeleteConfirmation = async () => {
     try {
@@ -25,6 +27,7 @@ export const Seminar: React.FC<
       onDelete(id); // обновляем состояние родительского компонента
     } catch (error) {
       console.error("Ошибка при удалении семинара:", error);
+      setError("Возникла ошибка при удалении семинара! Попробуйте позже.");
     } finally {
       setIsModalOpen(false); // Закрываем модальное окно после завершения
     }
@@ -50,7 +53,8 @@ export const Seminar: React.FC<
       );
       onSave(response.data); // обновляем состояние родительского компонента
     } catch (error) {
-      console.error("Ошибка при удалении семинара:", error);
+      console.error("Ошибка при изменении семинара:", error);
+      setError("Возникла ошибка при изменении семинара! Попробуйте позже.");
     } finally {
       setIsEditModalOpen(false);
     }
@@ -149,6 +153,7 @@ export const Seminar: React.FC<
         onSave={handleEditConfirmation}
         initialData={{ id, title, description, date, time, photo }} // Передаем текущие данные семинара для редактирования
       />
+      {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
     </>
   );
 };

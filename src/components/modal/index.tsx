@@ -55,9 +55,10 @@ export const EditModal: React.FC<EditModalProps> = ({
 }) => {
   const transformedInitialData = {
     ...initialData,
-    date: formatDate(initialData.date), // Применяем преобразование только к полю date
+    date: formatDate(initialData.date),
   };
   const [formData, setFormData] = useState(transformedInitialData);
+  const [error, setError] = useState<string | null>(null); // Состояние для ошибки
 
   if (!isOpen) return null;
 
@@ -69,8 +70,21 @@ export const EditModal: React.FC<EditModalProps> = ({
   };
 
   const handleSubmit = () => {
-    onSave(formData);
-    onClose();
+    // Проверка заполненности всех полей
+    if (
+      !formData.title ||
+      !formData.description ||
+      !formData.date ||
+      !formData.time ||
+      !formData.photo
+    ) {
+      setError("Пожалуйста, заполните все поля."); // Устанавливаем сообщение об ошибке
+      return; // Прерываем выполнение функции, если есть ошибки
+    }
+
+    setError(null); // Сбрасываем ошибку, если все поля заполнены
+    onSave(formData); // Вызываем функцию сохранения
+    onClose(); // Закрываем окно
   };
 
   return (
@@ -112,6 +126,7 @@ export const EditModal: React.FC<EditModalProps> = ({
             placeholder="URL фотографии"
           />
         </div>
+        {error && <p className={styles.errorText}>{error}</p>}{" "}
         <Flex alignItems="center" justifyContent="center" gap="14px">
           <Button type="save" onClick={handleSubmit}>
             сохранить

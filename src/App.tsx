@@ -4,6 +4,8 @@ import { SeminarType } from "./types";
 import axios from "axios";
 import { Seminar } from "./components/seminar";
 import { Header } from "./components/header";
+import ErrorMessage from "./components/error";
+import { PATHS } from "./paths";
 
 function App() {
   const [seminars, setSeminars] = useState<SeminarType[]>([]); // для хранения данных полученных от json-server
@@ -15,7 +17,7 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await axios.get<SeminarType[]>(
-          "http://localhost:3001/seminars"
+          PATHS.server
         );
         setSeminars(response.data);
       } catch (error) {
@@ -29,26 +31,22 @@ function App() {
     fetchData();
   }, []);
 
-  // Функция для обработки удаления семинара
+  // функция для обновления состояния после удаления семинара
   const handleDelete = (id: string) => {
     setSeminars((prevSeminars) =>
       prevSeminars.filter((seminar) => seminar.id !== id)
     );
   };
 
-  // Функция для обработки сохранения семинара
+  // функция для обновления состояния сохранения семинара
   const handleSave = async (data: SeminarType) => {
-      // Обновление состояния с семинарами
-      setSeminars((prevSeminars) =>
-        prevSeminars.map((seminar) => (seminar.id === data.id ? data : seminar))
-      );
+    setSeminars((prevSeminars) =>
+      prevSeminars.map((seminar) => (seminar.id === data.id ? data : seminar))
+    );
   };
 
   if (loading) {
     return <div>Загрузка...</div>;
-  }
-  if (error) {
-    return <div>Ошибка...</div>;
   }
 
   return (
@@ -56,6 +54,9 @@ function App() {
       <Header />
       <div className="App">
         <Container>
+          {error && (
+            <ErrorMessage message={error} onClose={() => setError(null)} />
+          )}
           <div className="seminars">
             {seminars.length === 0
               ? "Нет доступных семинаров."

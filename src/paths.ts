@@ -1,4 +1,5 @@
 export const PATHS = {
   home: "/",
-  add: "/add"
+  add: "/add",
+  server: 'http://localhost:3001/seminars/'
 } as const;

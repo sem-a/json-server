@@ -76,3 +76,8 @@ button.save:hover {
   margin-top: 14px;
   resize: vertical;
 }
+
+.errorText {
+  margin-top: 7px;
+  color: red;
+}
