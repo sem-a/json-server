@@ -11,6 +11,7 @@ type InputType = {
   placeholder?: string;
 };
 
+// кастомный компонент input для повторного использования в коде
 export const Input: React.FC<InputType> = ({
   type,
   name,

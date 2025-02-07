@@ -6,6 +6,7 @@ import { Seminar } from "./components/seminar";
 import { Header } from "./components/header";
 import ErrorMessage from "./components/error";
 import { PATHS } from "./paths";
+import Loader from "./components/loading";
 
 function App() {
   const [seminars, setSeminars] = useState<SeminarType[]>([]); // для хранения данных полученных от json-server
@@ -16,9 +17,7 @@ function App() {
     // получение данных от json-server и обновление состояния
     const fetchData = async () => {
       try {
-        const response = await axios.get<SeminarType[]>(
-          PATHS.server
-        );
+        const response = await axios.get<SeminarType[]>(PATHS.server);
         setSeminars(response.data);
       } catch (error) {
         console.log(error);
@@ -38,7 +37,7 @@ function App() {
     );
   };
 
-  // функция для обновления состояния сохранения семинара
+  // функция для обновления состояния после сохранения семинара
   const handleSave = async (data: SeminarType) => {
     setSeminars((prevSeminars) =>
       prevSeminars.map((seminar) => (seminar.id === data.id ? data : seminar))
@@ -46,7 +45,7 @@ function App() {
   };
 
   if (loading) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   return (

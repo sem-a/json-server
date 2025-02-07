@@ -10,13 +10,14 @@ interface DeleteModalProps {
   onClose: () => void;
   onConfirm: () => void;
 }
-
+// модальное окно для подтверждения удаления
 export const DeleteModal: React.FC<DeleteModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
 }) => {
-  if (!isOpen) return null;
+  if (!isOpen) return null; // если модальное окно не открыто возвращается null
+  // это нужно для того, чтобы не рендерить лишнее
 
   return (
     <div className={styles.overlay}>
@@ -42,6 +43,7 @@ interface EditModalProps {
   initialData: SeminarType;
 }
 
+// функция для приведения формата даты
 const formatDate = (dateString: string) => {
   const [day, month, year] = dateString.split(".");
   return `${year}-${month}-${day}`; // Форматируем в 'гггг-мм-дд'
@@ -57,11 +59,12 @@ export const EditModal: React.FC<EditModalProps> = ({
     ...initialData,
     date: formatDate(initialData.date),
   };
-  const [formData, setFormData] = useState(transformedInitialData);
-  const [error, setError] = useState<string | null>(null); // Состояние для ошибки
+  const [formData, setFormData] = useState(transformedInitialData); // состояние для данных формы
+  const [error, setError] = useState<string | null>(null); // состояние для ошибки
 
   if (!isOpen) return null;
 
+  // функция обрабатывает изменения в полях ввода формы
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -69,8 +72,9 @@ export const EditModal: React.FC<EditModalProps> = ({
     setFormData({ ...formData, [name]: value });
   };
 
+  // функция для отправки данных формы
   const handleSubmit = () => {
-    // Проверка заполненности всех полей
+    // проверка заполненности всех полей
     if (
       !formData.title ||
       !formData.description ||
@@ -78,13 +82,13 @@ export const EditModal: React.FC<EditModalProps> = ({
       !formData.time ||
       !formData.photo
     ) {
-      setError("Пожалуйста, заполните все поля."); // Устанавливаем сообщение об ошибке
-      return; // Прерываем выполнение функции, если есть ошибки
+      setError("Пожалуйста, заполните все поля."); // устанавливаю сообщение об ошибке
+      return; // прерываю выполнение функции, если есть ошибки
     }
 
-    setError(null); // Сбрасываем ошибку, если все поля заполнены
-    onSave(formData); // Вызываем функцию сохранения
-    onClose(); // Закрываем окно
+    setError(null); // сбрасываю ошибку, если все поля заполнены
+    onSave(formData); // вызываю функцию сохранения
+    onClose();
   };
 
   return (

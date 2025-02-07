@@ -14,24 +14,26 @@ const Add = () => {
     date: "",
     time: "",
     photo: "",
-  });
+  }); // для управления состоянием полей формы
   const [error, setError] = useState<string | null>(null);
 
+  // функция обрабатывает изменения в полях ввода формы
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // отвечает за добавление нового семинара
   const handleAddSeminar = async () => {
-    // Проверка на заполненность всех полей
+    // проверка на заполненность всех полей
     if (!formData.title || !formData.description || !formData.date || !formData.time || !formData.photo) {
       setError("Пожалуйста, заполните все поля.");
-      return; // Выход из функции, если есть ошибки
+      return; // выход из функции, если есть ошибки
     }
     
     try {
-      const [year, month, day] = formData.date.split("-");
-      const body = { ...formData, date: `${day}.${month}.${year}` };
+      const [year, month, day] = formData.date.split("-");            // преобразование даты
+      const body = { ...formData, date: `${day}.${month}.${year}` };  // из одного формата в другой
 
       const response = await axios.post("http://localhost:3001/seminars", body);
 

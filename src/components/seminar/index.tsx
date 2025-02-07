@@ -11,6 +11,7 @@ import { SeminarType } from "../../types";
 import { DeleteModal, EditModal } from "../modal";
 import axios from "axios";
 import ErrorMessage from "../error";
+import { PATHS } from "../../paths";
 
 export const Seminar: React.FC<
   SeminarType & { onDelete: (id: string) => void } & {
@@ -21,29 +22,31 @@ export const Seminar: React.FC<
   const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Состояние для модального окна редактирования
   const [error, setError] = useState<string | null>(null);
 
+  // функция для удаления семинара
   const handleDeleteConfirmation = async () => {
     try {
-      await axios.delete(`http://localhost:3001/seminars/${id}`);
-      onDelete(id); // обновляем состояние родительского компонента
+      await axios.delete(`${PATHS.server}${id}`);
+      onDelete(id); // обновляю состояние родительского компонента
     } catch (error) {
       console.error("Ошибка при удалении семинара:", error);
       setError("Возникла ошибка при удалении семинара! Попробуйте позже.");
     } finally {
-      setIsModalOpen(false); // Закрываем модальное окно после завершения
+      setIsModalOpen(false); // закрываю модальное окно после завершения
     }
   };
 
+  // функция для изменения семинара
   const handleEditConfirmation = async (formData: SeminarType) => {
     try {
-      const [year, month, day] = formData.date.split("-");
-      formData = {
-        ...formData,
+      const [year, month, day] = formData.date.split("-"); // перевод даты из одного
+      formData = {                                         // формата в 
+        ...formData,                                       // другой
         date: `${day}.${month}.${year}`,
       };
 
-      const { id, ...newFormData } = formData;
+      const { id, ...newFormData } = formData; // деструктуризация объекта 
       const response = await axios.patch(
-        `http://localhost:3001/seminars/${id}`,
+        `${PATHS.server}${id}`,
         newFormData,
         {
           headers: {
@@ -51,7 +54,7 @@ export const Seminar: React.FC<
           },
         }
       );
-      onSave(response.data); // обновляем состояние родительского компонента
+      onSave(response.data); // обновляю состояние родительского компонента
     } catch (error) {
       console.error("Ошибка при изменении семинара:", error);
       setError("Возникла ошибка при изменении семинара! Попробуйте позже.");
@@ -62,14 +65,14 @@ export const Seminar: React.FC<
 
   // функция для проверки прошедшей даты и времени
   const isPast = () => {
-    const [day, month, year] = date.split(".").map(Number); // разделяем строку и преобразуем в числа
+    const [day, month, year] = date.split(".").map(Number); // разделяю строку и преобразую в числа
     const seminarDateTime = new Date(
       year,
       month - 1,
       day,
       ...time.split(":").map(Number)
     ); // создаем объект Date
-    return seminarDateTime < new Date(); // сравниваем с текущей датой
+    return seminarDateTime < new Date(); // сравниваю с текущей датой
   };
 
   const past = isPast();
@@ -77,7 +80,7 @@ export const Seminar: React.FC<
   // функция для обрезания описания
   const truncateDescription = (desc: string) => {
     if (desc.length <= 100) {
-      return desc; // если длина меньше или равна 100, возвращаем оригинал
+      return desc; // если длина меньше или равна 100, возвращаю оригинал
     }
     const truncated = desc.slice(0, 100).trim();
     const lastSpaceIndex = truncated.lastIndexOf(" ");
@@ -87,7 +90,7 @@ export const Seminar: React.FC<
     return truncated.slice(0, lastSpaceIndex) + "...";
   };
 
-  const truncatedDescription = truncateDescription(description); // обрезаем описание
+  const truncatedDescription = truncateDescription(description); // обрезаю описание
 
   return (
     <>
@@ -151,7 +154,7 @@ export const Seminar: React.FC<
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         onSave={handleEditConfirmation}
-        initialData={{ id, title, description, date, time, photo }} // Передаем текущие данные семинара для редактирования
+        initialData={{ id, title, description, date, time, photo }} // передаю текущие данные семинара для редактирования
       />
       {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
     </>
