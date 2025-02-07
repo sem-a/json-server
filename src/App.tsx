@@ -36,6 +36,14 @@ function App() {
     );
   };
 
+  // Функция для обработки сохранения семинара
+  const handleSave = async (data: SeminarType) => {
+      // Обновление состояния с семинарами
+      setSeminars((prevSeminars) =>
+        prevSeminars.map((seminar) => (seminar.id === data.id ? data : seminar))
+      );
+  };
+
   if (loading) {
     return <div>Загрузка...</div>;
   }
@@ -49,13 +57,14 @@ function App() {
       <div className="App">
         <Container>
           <div className="seminars">
-            {seminars.length == 0
+            {seminars.length === 0
               ? "Нет доступных семинаров."
               : seminars.map((seminar) => (
                   <Seminar
                     key={seminar.id}
                     {...seminar}
                     onDelete={handleDelete}
+                    onSave={handleSave}
                   />
                 ))}
           </div>

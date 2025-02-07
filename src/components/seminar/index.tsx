@@ -8,13 +8,16 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import styles from "./index.module.css";
 import { SeminarType } from "../../types";
-import { DeleteModal } from "../modal";
+import { DeleteModal, EditModal } from "../modal";
 import axios from "axios";
 
 export const Seminar: React.FC<
-  SeminarType & { onDelete: (id: string) => void }
-> = ({ id, title, description, date, time, photo, onDelete }) => {
+  SeminarType & { onDelete: (id: string) => void } & {
+    onSave: (data: SeminarType) => void;
+  }
+> = ({ id, title, description, date, time, photo, onDelete, onSave }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // cостояние для модального окна
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Состояние для модального окна редактирования
 
   const handleDeleteConfirmation = async () => {
     try {
@@ -24,6 +27,26 @@ export const Seminar: React.FC<
       console.error("Ошибка при удалении семинара:", error);
     } finally {
       setIsModalOpen(false); // Закрываем модальное окно после завершения
+    }
+  };
+
+  const handleEditConfirmation = async (formData: SeminarType) => {
+    try {
+      const { id, ...newFormData } = formData;
+      const response = await axios.patch(
+        `http://localhost:3001/seminars/${id}`,
+        newFormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      onSave(response.data); // обновляем состояние родительского компонента
+    } catch (error) {
+      console.error("Ошибка при удалении семинара:", error);
+    } finally {
+      setIsEditModalOpen(false);
     }
   };
 
@@ -60,7 +83,7 @@ export const Seminar: React.FC<
     <>
       <div className={styles.seminar}>
         <Flex alignItems="flex-start" justifyContent="flex-start" gap="14px">
-          <img src={photo} alt="Фото семинара" />
+          <img src={photo} alt="Cеминар" />
           <div className={styles.body}>
             <Flex alignItems="center" justifyContent="flex-end" gap="7px">
               <button
@@ -72,7 +95,10 @@ export const Seminar: React.FC<
                   style={{ color: "white", fontSize: "14px" }}
                 />
               </button>
-              <button className={styles.edit}>
+              <button
+                className={styles.edit}
+                onClick={() => setIsEditModalOpen(true)}
+              >
                 <Flex alignItems="center" justifyContent="center" gap="5px">
                   <FontAwesomeIcon
                     icon={faPenToSquare}
@@ -110,6 +136,12 @@ export const Seminar: React.FC<
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleDeleteConfirmation}
+      />
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleEditConfirmation}
+        initialData={{ id, title, description, date, time, photo }} // Передаем текущие данные семинара для редактирования
       />
     </>
   );
