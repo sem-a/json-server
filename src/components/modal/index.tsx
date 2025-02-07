@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "./index.module.css";
 import { Flex } from "../containers";
 import { SeminarType } from "../../types";
+import { Button } from "../button";
+import { Input } from "../input";
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -21,12 +23,12 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
       <div className={styles.modal}>
         <p>Вы дейстивительно хотите удалить этот семинар?</p>
         <Flex alignItems="center" justifyContent="center" gap="14px">
-          <button className={styles.delete} onClick={onConfirm}>
+          <Button type="delete" onClick={onConfirm}>
             удалить
-          </button>
-          <button className={styles.cancle} onClick={onClose}>
-            отмена
-          </button>
+          </Button>
+          <Button type="cancel" onClick={onClose}>
+            отменить
+          </Button>
         </Flex>
       </div>
     </div>
@@ -40,13 +42,22 @@ interface EditModalProps {
   initialData: SeminarType;
 }
 
+const formatDate = (dateString: string) => {
+  const [day, month, year] = dateString.split(".");
+  return `${year}-${month}-${day}`; // Форматируем в 'гггг-мм-дд'
+};
+
 export const EditModal: React.FC<EditModalProps> = ({
   isOpen,
   onClose,
   onSave,
   initialData,
 }) => {
-  const [formData, setFormData] = useState(initialData);
+  const transformedInitialData = {
+    ...initialData,
+    date: formatDate(initialData.date), // Применяем преобразование только к полю date
+  };
+  const [formData, setFormData] = useState(transformedInitialData);
 
   if (!isOpen) return null;
 
@@ -65,52 +76,49 @@ export const EditModal: React.FC<EditModalProps> = ({
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h2>Редактировать семинар</h2>
-        <input
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          placeholder="Название семинара"
-          className={styles.input}
-        />
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="Описание семинара"
-          className={styles.textarea}
-        />
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          className={styles.input}
-        />
-        <input
-          type="time"
-          name="time"
-          value={formData.time}
-          onChange={handleChange}
-          className={styles.input}
-        />
-        <input
-          type="text"
-          name="photo"
-          value={formData.photo}
-          onChange={handleChange}
-          placeholder="URL фотографии"
-          className={styles.input}
-        />
-
+        <h2 style={{ fontWeight: 700 }}>Редактировать семинар</h2>
+        <div className={styles.form}>
+          <Input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            placeholder="Название семинара"
+          />
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Описание семинара"
+            className={styles.textarea}
+          />
+          <Input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+          />
+          <Input
+            type="time"
+            name="time"
+            value={formData.time}
+            onChange={handleChange}
+          />
+          <Input
+            type="text"
+            name="photo"
+            value={formData.photo}
+            onChange={handleChange}
+            placeholder="URL фотографии"
+          />
+        </div>
         <Flex alignItems="center" justifyContent="center" gap="14px">
-          <button className={styles.save} onClick={handleSubmit}>
+          <Button type="save" onClick={handleSubmit}>
             сохранить
-          </button>
-          <button className={styles.cancel} onClick={onClose}>
-            отмена
-          </button>
+          </Button>
+          <Button type="cancel" onClick={onClose}>
+            отменить
+          </Button>
         </Flex>
       </div>
     </div>

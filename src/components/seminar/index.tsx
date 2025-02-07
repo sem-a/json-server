@@ -32,6 +32,12 @@ export const Seminar: React.FC<
 
   const handleEditConfirmation = async (formData: SeminarType) => {
     try {
+      const [year, month, day] = formData.date.split("-");
+      formData = {
+        ...formData,
+        date: `${day}.${month}.${year}`,
+      };
+
       const { id, ...newFormData } = formData;
       const response = await axios.patch(
         `http://localhost:3001/seminars/${id}`,

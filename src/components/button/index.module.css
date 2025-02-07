@@ -1,0 +1,39 @@
+button {
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+}
+button.delete {
+  background-color: #e40800;
+  color: white;
+  transition: all 0.5s ease 0s;
+}
+button.delete:hover {
+  background-color: red;
+}
+button.cancel {
+  background-color: #f5f5f5;
+  color: black;
+  transition: all 0.5s ease 0s;
+  border: 0.5px  solid #676767;
+}
+button.cancel:hover {
+  background-color: white;
+}
+button.save {
+  background-color: #367e38;
+  color: white;
+  transition: all 0.5s ease 0s;
+}
+button.save:hover {
+  background-color: #4caf50;
+}
+button.normal {
+  background-color: #1e65b7;
+  color: white;
+  transition: all 0.5s ease 0s;
+}
+button.normal:hover {
+  background-color: #1479eb;
+}

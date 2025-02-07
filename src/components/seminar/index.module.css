@@ -12,6 +12,9 @@
   border-radius: 7px;
   object-fit: cover;
 }
+.body {
+  width: 100%;
+}
 button.delete {
   padding: 4.5px 8px;
   border-radius: 7px;

@@ -16,7 +16,7 @@
   padding: 20px;
   border-radius: 8px;
   width: 90%;
-  width: 321px;
+  width: 421px;
   text-align: center;
 }
 .modal p {
@@ -26,7 +26,7 @@ button {
   padding: 7px 14px;
   border-radius: 7px;
   border: none;
-  cursor:pointer;
+  cursor: pointer;
 }
 button.delete {
   background-color: #e40800;
@@ -36,11 +36,43 @@ button.delete {
 button.delete:hover {
   background-color: red;
 }
-button.cancle {
-  background-color: #1E65B7;
+button.cancel {
+  background-color: #1e65b7;
   color: white;
   transition: all 0.5s ease 0s;
 }
-button.cancle:hover {
+button.cancel:hover {
   background-color: #1479eb;
+}
+button.save {
+  background-color: #367e38;
+  color: white;
+  transition: all 0.5s ease 0s;
+}
+button.save:hover {
+  background-color: #4caf50;
+}
+
+.form {
+  margin-top: 7px;
+  margin-bottom: 14px;
+}
+
+.input {
+  width: 321px;
+  padding: 7px 14px;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  margin-top: 14px;
+}
+.textarea {
+  width: 321px;
+  min-height: 63px;
+  padding: 7px 14px;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  margin-top: 14px;
+  resize: vertical;
 }
